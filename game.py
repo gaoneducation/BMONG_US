@@ -29,23 +29,29 @@ def main() :
 
         if keys[pg.K_a] :
             player.setLeftPressed(True)
-            player.updateAnimation_NonReset(WALK_LEFT)
+        elif keys[pg.K_a] == 0 :
+            player.setLeftPressed(False)
 
         if keys[pg.K_d] :
             player.setRightPressed(True)
-            player.updateAnimation_NonReset(WALK_RIGHT)
+        elif keys[pg.K_d] == 0 :
+            player.setRightPressed(False)
 
         if keys[pg.K_w] :
             player.setUpPressed(True) 
-            player.updateAnimation_NonReset(WALK_UP)
+        elif keys[pg.K_w] == 0 :
+            player.setUpPressed(False)
         
         if keys[pg.K_s] :
             player.setDownPressed(True)
-            player.updateAnimation_NonReset(WALK_DOWN)
+        elif keys[pg.K_s] == 0 :
+            player.setDownPressed(False)
 
-        if list(keys).count(1) == 0 :
-            player.setIdlePressed()
+        playerAction = player.checkAction()
+        if playerAction == IDLE :
             player.updateAnimation(IDLE)
+        elif playerAction == WALK :
+            player.updateAnimation_NonReset(WALK)
 
         player.update()
 

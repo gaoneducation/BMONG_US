@@ -35,3 +35,6 @@ def load_sprite_image(name, f1, f2, f3, f4):
         raise SystemExit(str(geterror()))
 
     return image, image.get_rect()
+
+def imageFlipLR(image) :
+    return pygame.transform.flip(image, 1, 0)

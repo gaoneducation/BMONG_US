@@ -28,6 +28,51 @@ class Character(pygame.sprite.Sprite) :
 
         self.count = 1
 
+    def walkAnimation(self) :
+        if self.count == WALK_ANIMATION_FRAME :
+            self.count = 1
+
+        imagePath = '{}.png'.format(self.count)
+        self.image, self.rect = load_image(imagePath, 'test')
+
+        if self.faceSide == FACE_LEFT :
+            self.image = imageFlipLR(self.image)
+
+        screen = pg.display.get_surface()
+        self.area = screen.get_rect()
+
+        self.count += 1
+
+        if self.count == WALK_ANIMATION_FRAME :
+            self.count = 1
+
+    def walk(self) :
+        if self.leftPressed :
+            self.faceSide = FACE_LEFT
+            if self.currPosX > LIMIT_LEFT :
+                self.currPosX -= MOVE_SPEED
+            else :
+                self.currPosX = LIMIT_LEFT
+
+        if self.rightPressed :
+            self.faceSide = FACE_RIGHT
+            if self.currPosX < LIMIT_RIGHT :
+                self.currPosX += MOVE_SPEED
+            else :
+                self.currPosX = LIMIT_RIGHT
+
+        if self.upPressed :
+            if self.currPosY > LIMIT_TOP :
+                self.currPosY -= MOVE_SPEED
+            else :
+                self.currPosY = LIMIT_TOP
+
+        if self.downPressed :
+            if self.currPosY < LIMIT_BOTTOM :
+                self.currPosY += MOVE_SPEED
+            else :
+                self.currPosY = LIMIT_BOTTOM
+        
     def update(self) :
         if self.currAnimation == IDLE :
             self.count = 1
@@ -40,128 +85,10 @@ class Character(pygame.sprite.Sprite) :
 
             self.rect.center = self.currPosX, self.currPosY
 
-        elif self.currAnimation == WALK_LEFT :
-            if self.leftPressed == False :
-                self.currAnimation = IDLE
-
-            if self.count == WALK_ANIMATION_FRAME :
-                self.count = 1
-
-            if self.currPosX > -10 :
-                self.currPosX -= 5
-            else :
-                self.currPosX -= 0
-
-            imagePath = '{}.png'.format(self.count)
-            self.image, self.rect = load_image(imagePath, 'test')
-            self.image = pg.transform.flip(self.image, 1, 0)
-
-            screen = pg.display.get_surface()
-            self.area = screen.get_rect()
-
-            if self.currPosX > -10 :
-                self.rect.center = self.currPosX, self.currPosY
-            else :
-                self.currPosX = -10
-                self.rect.center = self.currPosX, self.currPosY
-
-            self.faceSide = FACE_LEFT
-            self.count += 1
-
-            if self.count == WALK_ANIMATION_FRAME + 1 :
-                self.count = 1
-
-        elif self.currAnimation == WALK_RIGHT :
-            if self.rightPressed == False :
-                self.currAnimation == IDLE
-
-            if self.count == WALK_ANIMATION_FRAME :
-                self.count = 1
-
-            if self.currPosX < 950 :
-                self.currPosX += 5
-            else :
-                self.currPosX += 0
-
-            imagePath = '{}.png'.format(self.count)
-            self.image, self.rect = load_image(imagePath, 'test')
-
-            screen = pg.display.get_surface()
-            self.area = screen.get_rect()
-
-            if self.currPosX < 950 :
-                self.rect.center = self.currPosX, self.currPosY
-            else :
-                self.currPosX = 950
-                self.rect.center = self.currPosX, self.currPosY
-
-            self.faceSide = FACE_RIGHT
-            self.count += 1
-
-            if self.count == WALK_ANIMATION_FRAME + 1  :
-                self.count = 1
-
-        elif self.currAnimation == WALK_UP :
-            if self.upPressed == False :
-                self.currAnimation == IDLE
-
-            if self.count == WALK_ANIMATION_FRAME :
-                self.count = 1
-
-            if self.currPosY > -10 :
-                self.currPosY -= 5
-            else :
-                self.currPosY += 0
-
-            imagePath = '{}.png'.format(self.count)
-            self.image, self.rect = load_image(imagePath, 'test')
-            if self.faceSide == FACE_LEFT :
-                self.image = pg.transform.flip(self.image, 1, 0)
-
-            screen = pg.display.get_surface()
-            self.area = screen.get_rect()
-
-            if self.currPosY > -10:
-                self.rect.center = self.currPosX, self.currPosY
-            else :
-                self.currPosY = -10
-                self.rect.center = self.currPosX, self.currPosY
-
-            self.count += 1
-
-            if self.count == WALK_ANIMATION_FRAME + 1  :
-                self.count = 1
-
-        elif self.currAnimation == WALK_DOWN :
-            if self.downPressed == False :
-                self.currAnimation == IDLE
-
-            if self.count == WALK_ANIMATION_FRAME :
-                self.count = 1
-
-            if self.currPosY < 530 :
-                self.currPosY += 5
-            else :
-                self.currPosY += 0
-
-            imagePath = '{}.png'.format(self.count)
-            self.image, self.rect = load_image(imagePath, 'test')
-            if self.faceSide == FACE_LEFT :
-                self.image = pg.transform.flip(self.image, 1, 0)
-                
-            screen = pg.display.get_surface()
-            self.area = screen.get_rect()
-
-            if self.currPosY < 530 :
-                self.rect.center = self.currPosX, self.currPosY
-            else :
-                self.currPosY = 530
-                self.rect.center = self.currPosX, self.currPosY
-
-            self.count += 1
-
-            if self.count == WALK_ANIMATION_FRAME + 1  :
-                self.count = 1
+        elif self.currAnimation == WALK :
+            self.walk()
+            self.walkAnimation()
+            self.setRectCenterPos()
 
     def updateAnimation(self, animate) :
         self.count = 0
@@ -190,3 +117,11 @@ class Character(pygame.sprite.Sprite) :
         self.setUpPressed(False)
         self.setDownPressed(False)
         self.setRightPressed(False)
+
+    def checkAction(self) :
+        if self.upPressed or self.downPressed or self.leftPressed or self.rightPressed :
+            return WALK
+        else :
+            return IDLE
+    def setRectCenterPos(self) :
+        self.rect.center = self.currPosX, self.currPosY
