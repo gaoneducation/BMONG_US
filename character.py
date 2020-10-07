@@ -27,6 +27,23 @@ class Character(pygame.sprite.Sprite) :
         self.downPressed = False
 
         self.count = 1
+        
+    def update(self) :
+        if self.currAnimation == IDLE :
+            self.count = 1
+
+            imagePath = '{}.png'.format(self.count)
+            self.image, self.rect = load_image(imagePath, 'test')
+
+            if self.faceSide == FACE_LEFT :
+                self.image = pg.transform.flip(self.image, 1, 0)
+
+            self.rect.center = self.currPosX, self.currPosY
+
+        elif self.currAnimation == WALK :
+            self.walk()
+            self.walkAnimation()
+            self.setRectCenterPos()
 
     def walkAnimation(self) :
         if self.count == WALK_ANIMATION_FRAME :
@@ -72,23 +89,6 @@ class Character(pygame.sprite.Sprite) :
                 self.currPosY += MOVE_SPEED
             else :
                 self.currPosY = LIMIT_BOTTOM
-        
-    def update(self) :
-        if self.currAnimation == IDLE :
-            self.count = 1
-
-            imagePath = '{}.png'.format(self.count)
-            self.image, self.rect = load_image(imagePath, 'test')
-
-            if self.faceSide == FACE_LEFT :
-                self.image = pg.transform.flip(self.image, 1, 0)
-
-            self.rect.center = self.currPosX, self.currPosY
-
-        elif self.currAnimation == WALK :
-            self.walk()
-            self.walkAnimation()
-            self.setRectCenterPos()
 
     def updateAnimation(self, animate) :
         self.count = 0
