@@ -33,7 +33,7 @@ class Character(pygame.sprite.Sprite) :
             self.count = 1
 
             imagePath = 'idle.png'
-            self.image, self.rect = load_image(imagePath, 'Character\\idle')
+            self.image, self.rect = load_image(imagePath, 'Imposter\\idle')
 
             if self.faceSide == FACE_LEFT :
                 self.image = pg.transform.flip(self.image, 1, 0)
@@ -43,14 +43,14 @@ class Character(pygame.sprite.Sprite) :
         elif self.currAnimation == WALK :
             self.walk()
             self.walkAnimation()
-            self.setRectBotLeftPos()
+            self.setRectCenterPos()
 
     def walkAnimation(self) :
         if self.count == WALK_ANIMATION_FRAME :
             self.count = 1
 
         imagePath = 'walk{}.png'.format(self.count)
-        self.image, self.rect = load_image(imagePath, 'Character\\walk')
+        self.image, self.rect = load_image(imagePath, 'Imposter\\walk')
 
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)

@@ -4,6 +4,7 @@ import pygame as pg
 
 from data import *
 from character import Character
+from background import *
 
 pg.init()
 pg.display.set_caption(TITLE)
@@ -12,7 +13,11 @@ screen = pg.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 clock = pg.time.Clock()
 
 def main() :
+    bg = Background(0,0)
+
     player = Character(470, 260)
+
+    spriteGroup = pg.sprite.LayeredUpdates((bg, player))
     
     loop = True
 
@@ -53,11 +58,19 @@ def main() :
         elif playerAction == WALK :
             player.updateAnimation_NonReset(WALK)
 
+        spriteGroup.remove(player)
+
         player.update()
+        spriteGroup.update()
 
-        screen.fill(WHITE)
-        screen.blit(player.image, player.getCurrentPosition())
+        spriteGroup.add(player)
+        spriteGroup.move_to_back(player)
+        spriteGroup.move_to_back(bg)
 
+        #screen.fill(WHITE)
+        #screen.blit(player.image, player.getCurrentPosition())
+
+        spriteGroup.draw(screen)
         pg.display.update()
 
     pg.quit()
