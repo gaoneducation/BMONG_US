@@ -67,9 +67,6 @@ def main() :
         spriteGroup.move_to_back(player)
         spriteGroup.move_to_back(bg)
 
-        #screen.fill(WHITE)
-        #screen.blit(player.image, player.getCurrentPosition())
-
         spriteGroup.draw(screen)
         pg.display.update()
 
