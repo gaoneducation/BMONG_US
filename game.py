@@ -85,12 +85,14 @@ def main() :
         bx = math.pow(b, 2)*math.pow(player.currPosX-table.centerx, 2)
         distance = math.sqrt(ay+bx)
         if distance <= a*b:
-            if player.currPosX > table.centerx-200 & player.currPosX < table.centerx+200:
+            if player.currPosX > table.centerx-265 & player.currPosX < table.centerx+265:
                 if player.currPosY < table.centery:
+                    #table보다 player layer 더 낮게
                     player.setDownPressed(False)
                 elif player.currPosY > table.centery:
+                    #table보다 player layer 더 높게
                     player.setUpPressed(False)
-            if player.currPosY > table.centery-200 & player.currPosY < table.centery+200:
+            if player.currPosY > table.centery-233 & player.currPosY < table.centery+233:
                 if player.currPosX > table.centerx:
                     player.setLeftPressed(False)
                 elif player.currPosX < table.centerx:
