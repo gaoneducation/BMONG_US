@@ -77,6 +77,7 @@ def main() :
                 player.setRightPressed(False)
         '''
 
+        # 타원(테이블) 충돌
         a = 265
         b = 233
         dump = 10
