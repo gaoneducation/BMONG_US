@@ -1,10 +1,12 @@
 import sys
 
 import pygame as pg
+import math
 
 from data import *
 from character import Character
 from background import *
+from table import *
 
 pg.init()
 pg.display.set_caption(TITLE)
@@ -15,9 +17,13 @@ clock = pg.time.Clock()
 def main() :
     bg = Background(0,0)
 
-    player = Character(470, 260)
+    table = Table(485, 370)
 
-    spriteGroup = pg.sprite.LayeredUpdates((bg, player))
+    player = Character(200, 260)
+
+    
+    
+    spriteGroup = pg.sprite.LayeredUpdates((bg, table, player))
     
     loop = True
 
@@ -58,6 +64,38 @@ def main() :
         elif playerAction == WALK :
             player.updateAnimation_NonReset(WALK)
 
+        '''
+        #test 원 충돌
+        if(pygame.sprite.collide_rect(b1,player)):
+            if player.currPosY == b1.centery-100:
+                player.setDownPressed(False)
+            elif player.currPosY == b1.centery+100:
+                player.setUpPressed(False)
+            elif player.currPosX == b1.centerx-100:
+                player.setLeftPressed(False)
+            elif player.currPosX == b1.centerx+100:
+                player.setRightPressed(False)
+        '''
+
+        a = 265
+        b = 233
+        dump = 10
+        ay = math.pow(a, 2)*math.pow(player.currPosY-table.centery+dump, 2)
+        bx = math.pow(b, 2)*math.pow(player.currPosX-table.centerx, 2)
+        distance = math.sqrt(ay+bx)
+        if distance <= a*b:
+            if player.currPosX > table.centerx-200 & player.currPosX < table.centerx+200:
+                if player.currPosY < table.centery:
+                    player.setDownPressed(False)
+                elif player.currPosY > table.centery:
+                    player.setUpPressed(False)
+            if player.currPosY > table.centery-200 & player.currPosY < table.centery+200:
+                if player.currPosX > table.centerx:
+                    player.setLeftPressed(False)
+                elif player.currPosX < table.centerx:
+                    player.setRightPressed(False)
+
+
         spriteGroup.remove(player)
 
         player.update()
@@ -66,6 +104,9 @@ def main() :
         spriteGroup.add(player)
         spriteGroup.move_to_back(player)
         spriteGroup.move_to_back(bg)
+
+        #screen.fill(WHITE)
+        #screen.blit(player.image, player.getCurrentPosition())
 
         spriteGroup.draw(screen)
         pg.display.update()
