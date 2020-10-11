@@ -4,6 +4,7 @@ import pygame as pg
 
 from data import *
 from character import Character
+from imposter import Imposter
 from background import *
 
 pg.init()
@@ -15,7 +16,7 @@ clock = pg.time.Clock()
 def main() :
     bg = Background(0,0)
 
-    player = Character(470, 260)
+    player = Imposter(250, 120)
 
     spriteGroup = pg.sprite.LayeredUpdates((bg, player))
     

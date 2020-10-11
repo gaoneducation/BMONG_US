@@ -8,9 +8,13 @@ class Character(pygame.sprite.Sprite) :
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image('1.png', 'test')
 
-        self.basePosX = 470
-        self.basePosY = 260
+        self.basePosX = 250
+        self.basePosY = 120
 
+        if startX is None or startY is None :
+            startX = self.basePosX
+            startY = self.basePosY
+            
         self.currPosX = startX
         self.currPosY = startY
 
@@ -40,8 +44,8 @@ class Character(pygame.sprite.Sprite) :
     def idleAnimation(self) :
         self.count = 1
 
-        imagePath = 'idle.png'
-        self.image, self.rect = load_image(imagePath, 'Imposter\\idle')
+        imageFileName = 'idle.png'
+        self.image, self.rect = load_image(imageFileName, 'Imposter\\idle')
 
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)
@@ -52,8 +56,8 @@ class Character(pygame.sprite.Sprite) :
         if self.count == WALK_ANIMATION_FRAME :
             self.count = 1
 
-        imagePath = 'walk{}.png'.format(self.count)
-        self.image, self.rect = load_image(imagePath, 'Imposter\\walk')
+        imageFileName = 'walk{}.png'.format(self.count)
+        self.image, self.rect = load_image(imageFileName, 'Imposter\\walk')
 
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)
