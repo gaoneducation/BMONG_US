@@ -6,6 +6,7 @@ import math
 from data import *
 from character import Character
 from imposter import Imposter
+from crew import Crew
 from background import *
 from table import *
 
@@ -19,10 +20,10 @@ def main() :
     bg = Background(0,0)
 
     player = Imposter(250, 120)
+    dummy = Crew(710, 600)
     table = Table(485, 370)
 
-    
-    spriteGroup = pg.sprite.LayeredUpdates((bg, table, player))
+    spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player))
     
     loop = True
 
@@ -89,7 +90,7 @@ def main() :
                     #table보다 player layer 더 낮게
                     player.setDownPressed(False)
                 elif player.currPosY > table.centery:
-                    #table보다 player layer 더 높게
+                    #table보다 player layer 더 높게 -> Line 117
                     player.setUpPressed(False)
             if player.currPosY > table.centery-233 & player.currPosY < table.centery+233:
                 if player.currPosX > table.centerx:
@@ -103,13 +104,26 @@ def main() :
         player.update()
         spriteGroup.update()
 
+        spriteGroup.add(dummy)
         spriteGroup.add(player)
-        spriteGroup.move_to_back(player)
+
+        if player.currPosY >= dummy.currPosY :
+            spriteGroup.move_to_back(player)
+            spriteGroup.move_to_back(dummy)
+        else :
+            spriteGroup.move_to_back(dummy)
+            spriteGroup.move_to_back(player)
+        
+        if player.currPosY >= table.centery :
+            spriteGroup.move_to_back(table)
+        else :
+            spriteGroup.move_to_front(table)
+
         spriteGroup.move_to_back(bg)
 
         #screen.fill(WHITE)
         #screen.blit(player.image, player.getCurrentPosition())
-
+        
         spriteGroup.draw(screen)
         pg.display.update()
 
