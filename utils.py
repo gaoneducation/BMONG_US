@@ -44,3 +44,12 @@ def imageScalePercent(image, scalePercent) :
     height = int(image.get_height() * scalePercent / 100)
 
     return pygame.transform.scale(image, (width, height))
+
+def mouseOnButton(button) :
+    mouseX, mouseY = pygame.mouse.get_pos()
+
+    if mouseX > button.rect.left and mouseX < button.rect.right and \
+        mouseY > button.rect.top and mouseY < button.rect.bottom :
+        return True
+    else :
+        return False

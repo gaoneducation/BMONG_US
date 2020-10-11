@@ -8,7 +8,7 @@ from character import Character
 from imposter import Imposter
 from crew import Crew
 from background import *
-from button import KillButton, SbtgButton
+from button import KillButton, SbtgButton, ReviveButton
 from table import *
 
 pg.init()
@@ -22,11 +22,14 @@ def main() :
 
     player = Imposter(250, 120)
     dummy = Crew(710, 600)
+
     table = Table(TABLE_POS_X, TABLE_POS_Y)
+
     killBt = KillButton(KILL_BUTTON_X, KILL_BUTTON_Y)
     sbtgBt = SbtgButton(SABOTAGE_BUTTON_X, SABOTAGE_BUTTON_Y)
+    reviveBt = ReviveButton(REVIVE_BUTTON_X, REVIVE_BUTTON_Y)
 
-    spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player, killBt, sbtgBt))
+    spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player, killBt, sbtgBt, reviveBt))
     
     loop = True
 
@@ -68,13 +71,23 @@ def main() :
         elif playerAction == WALK :
             player.updateAnimation_NonReset(WALK)
 
-        if leftclick and killBt.available == True :
-            mouseX, mouseY = pg.mouse.get_pos()
-            if mouseX > killBt.rect.left and mouseX < killBt.rect.right and \
-               mouseY > killBt.rect.top and mouseY < killBt.rect.bottom :
+        if leftclick : 
+            if killBt.available == True and mouseOnButton(killBt) :
                 dummy.updateAnimation(DEAD)
                 dummy.setDead(True)
+            elif reviveBt.available == True and mouseOnButton(reviveBt) :
+                dummy.updateAnimation(REVIVE)
+                dummy.setDead(False)
 
+        if player.rect.colliderect(dummy) and dummy.dead == False :
+            killBt.setAvailable(True)
+        else :
+            killBt.setAvailable(False)
+
+        if dummy.dead == True :
+            reviveBt.setAvailable(True)
+        else :
+            reviveBt.setAvailable(False)
 
         '''
         #test 원 충돌
@@ -88,11 +101,6 @@ def main() :
             elif player.currPosX == b1.centerx+100:
                 player.setRightPressed(False)
         '''
-
-        if player.rect.colliderect(dummy) and dummy.dead == False :
-            killBt.setAvailable(True)
-        else :
-            killBt.setAvailable(False)
 
         # 타원(테이블) 충돌
         a = 265
@@ -137,6 +145,7 @@ def main() :
         spriteGroup.move_to_back(bg)
         spriteGroup.move_to_front(killBt)
         spriteGroup.move_to_front(sbtgBt)
+        spriteGroup.move_to_front(reviveBt)
         
         spriteGroup.draw(screen)
         pg.display.update()

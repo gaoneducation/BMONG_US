@@ -16,6 +16,13 @@ class Crew(Character) :
         if self.currAnimation == DEAD :
             self.deadAnimation()
             self.setRectCenterPos()
+        if self.currAnimation == REVIVE :
+            self.spawnAnimation()
+            self.setRectCenterPos()
+
+            if self.count == SPAWN_ANIMATION_FRAME + 1 :
+                self.updateAnimation(IDLE)
+                self.setRectCenterPos()
 
     def idleAnimation(self) :
         self.count = 1
@@ -61,5 +68,14 @@ class Crew(Character) :
         if self.count == DEAD_ANIMATION_FRAME + 1 :
             self.count = 33
     
+    def spawnAnimation(self) :
+        imageFileName = 'spawn{}.png'.format(self.count)
+        self.image, self.rect = load_image(imageFileName, 'Crew\\spawn')
+
+        screen = pg.display.get_surface()
+        self.area = screen.get_rect()
+
+        self.count += 1
+
     def setDead(self, state) :
         self.dead = state
