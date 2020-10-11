@@ -38,3 +38,9 @@ def load_sprite_image(name, f1, f2, f3, f4):
 
 def imageFlipLR(image) :
     return pygame.transform.flip(image, 1, 0)
+
+def imageScalePercent(image, scalePercent) :
+    width = int(image.get_width() * scalePercent / 100)
+    height = int(image.get_height() * scalePercent / 100)
+
+    return pygame.transform.scale(image, (width, height))

@@ -8,6 +8,7 @@ from character import Character
 from imposter import Imposter
 from crew import Crew
 from background import *
+from button import KillButton, SbtgButton
 from table import *
 
 pg.init()
@@ -21,9 +22,11 @@ def main() :
 
     player = Imposter(250, 120)
     dummy = Crew(710, 600)
-    table = Table(485, 370)
+    table = Table(TABLE_POS_X, TABLE_POS_Y)
+    killBt = KillButton(KILL_BUTTON_X, KILL_BUTTON_Y)
+    sbtgBt = SbtgButton(SABOTAGE_BUTTON_X, SABOTAGE_BUTTON_Y)
 
-    spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player))
+    spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player, killBt, sbtgBt))
     
     loop = True
 
@@ -37,6 +40,7 @@ def main() :
                 loop = False
 
         keys = pg.key.get_pressed()
+        leftclick = pg.mouse.get_pressed()[MOUSE_LEFT]
 
         if keys[pg.K_a] :
             player.setLeftPressed(True)
@@ -64,6 +68,14 @@ def main() :
         elif playerAction == WALK :
             player.updateAnimation_NonReset(WALK)
 
+        if leftclick and killBt.available == True :
+            mouseX, mouseY = pg.mouse.get_pos()
+            if mouseX > killBt.rect.left and mouseX < killBt.rect.right and \
+               mouseY > killBt.rect.top and mouseY < killBt.rect.bottom :
+                dummy.updateAnimation(DEAD)
+                dummy.setDead(True)
+
+
         '''
         #test 원 충돌
         if(pygame.sprite.collide_rect(b1,player)):
@@ -76,6 +88,11 @@ def main() :
             elif player.currPosX == b1.centerx+100:
                 player.setRightPressed(False)
         '''
+
+        if player.rect.colliderect(dummy) and dummy.dead == False :
+            killBt.setAvailable(True)
+        else :
+            killBt.setAvailable(False)
 
         # 타원(테이블) 충돌
         a = 265
@@ -98,13 +115,11 @@ def main() :
                 elif player.currPosX < table.centerx:
                     player.setRightPressed(False)
 
-
         spriteGroup.remove(player)
 
         player.update()
         spriteGroup.update()
 
-        spriteGroup.add(dummy)
         spriteGroup.add(player)
 
         if player.currPosY >= dummy.currPosY :
@@ -120,9 +135,8 @@ def main() :
             spriteGroup.move_to_front(table)
 
         spriteGroup.move_to_back(bg)
-
-        #screen.fill(WHITE)
-        #screen.blit(player.image, player.getCurrentPosition())
+        spriteGroup.move_to_front(killBt)
+        spriteGroup.move_to_front(sbtgBt)
         
         spriteGroup.draw(screen)
         pg.display.update()

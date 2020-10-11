@@ -98,7 +98,7 @@ class Character(pygame.sprite.Sprite) :
                 self.currPosY = LIMIT_BOTTOM
 
     def updateAnimation(self, animate) :
-        self.count = 0
+        self.count = 1
         self.currAnimation = animate
 
     def updateAnimation_NonReset(self, animate) :
