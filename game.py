@@ -28,9 +28,13 @@ def main() :
     killBt = KillButton(KILL_BUTTON_X, KILL_BUTTON_Y)
     sbtgBt = SbtgButton(SABOTAGE_BUTTON_X, SABOTAGE_BUTTON_Y)
     reviveBt = ReviveButton(REVIVE_BUTTON_X, REVIVE_BUTTON_Y)
+    
+    sbtgCounter = 0
+    sbtgBG, sbtgBG_rect = load_image('SBTG_BG.png', 'Others')
+    sbtgBG_rect.topleft = SBTG_BG_POS_X, SBTG_BG_POS_Y
 
     spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player, killBt, sbtgBt, reviveBt))
-    
+
     loop = True
 
     while loop :
@@ -73,11 +77,17 @@ def main() :
 
         if leftclick : 
             if killBt.available == True and mouseOnButton(killBt) :
+                player.addkillCounter()
+                player.killMotion(screen)
+                player.updateAnimation(IDLE)
                 dummy.updateAnimation(DEAD)
                 dummy.setDead(True)
             elif reviveBt.available == True and mouseOnButton(reviveBt) :
                 dummy.updateAnimation(REVIVE)
                 dummy.setDead(False)
+            elif sbtgBt.available == True and mouseOnButton(sbtgBt) :
+                player.setSabotageState(True)
+                sbtgBt.setAvailable(False)
 
         if player.rect.colliderect(dummy) and dummy.dead == False :
             killBt.setAvailable(True)
@@ -148,6 +158,24 @@ def main() :
         spriteGroup.move_to_front(reviveBt)
         
         spriteGroup.draw(screen)
+        
+        if player.sabotage == True :
+            sbtgTime = int(sbtgCounter / FPS)
+            if (sbtgTime >= 0 and sbtgTime < 1) or \
+                (sbtgTime >= 2 and sbtgTime < 3) or \
+                (sbtgTime >= 4 and sbtgTime < 5) :
+
+                screen.blit(sbtgBG, (SBTG_BG_POS_X, SBTG_BG_POS_Y))
+            else :
+                pass
+
+            sbtgCounter += 1
+
+            if sbtgCounter > SBTG_DURATION :
+                sbtgCounter = 0
+                player.setSabotageState(False)
+                sbtgBt.setAvailable(True)
+
         pg.display.update()
 
     pg.quit()
