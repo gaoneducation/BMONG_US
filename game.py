@@ -1,4 +1,4 @@
-import sys
+import os, sys
 
 import pygame as pg
 import math
@@ -10,6 +10,7 @@ from crew import Crew
 from background import *
 from button import KillButton, SbtgButton, ReviveButton
 from table import *
+from utils import delTempImage
 
 pg.init()
 pg.display.set_caption(TITLE)
@@ -19,6 +20,8 @@ clock = pg.time.Clock()
 
 def main() :
     bg = Background(0,0)
+
+    makeImagePaletteSwap(PALETTE_DEFAULT)
 
     player = Imposter(250, 120)
     dummy = Crew(710, 600)
@@ -182,3 +185,5 @@ def main() :
 
 if __name__ == "__main__":
     main()
+    
+    delTempImage()

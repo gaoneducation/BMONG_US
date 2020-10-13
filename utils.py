@@ -1,5 +1,12 @@
-import pygame, os
+import os
+import PIL.Image as Image
+import glob
+from pathlib import Path
+
+import pygame
 from pygame.compat import geterror
+
+import data
 
 mainDIR = os.path.split(os.path.abspath(__file__))[0]
 dataDIR = os.path.join(mainDIR, 'data')
@@ -47,6 +54,31 @@ def imageScalePercent(image, scalePercent) :
 
 def imageScaleAbsolute(image, width, height) :
     return pygame.transform.scale(image, (width, height))
+
+def createModifiedSprites(path, palatteColor):
+    src = Image.open(path)
+    px = src.load()
+    width, height = src.size
+
+    for i in range(width):
+        for j in range(height):
+            pixel = px[i, j]
+            r, g, b = pixel[0], pixel[1], pixel[2]
+            
+            if pixel == data.PALETTE_BLUE[0] or (70 < b < 255) and not (g > 220 and b > 80):
+                px[i, j] = palatteColor[1]
+            if pixel == data.PALETTE_RED[0] or (70 < r < 255) and not (g > 220 and r > 80):
+                px[i, j] = palatteColor[0]
+
+    src.save('data/Imposter/temp/' + Path(path).name)
+
+def makeImagePaletteSwap(paletteColor=data.PALETTE_RED) :
+    for path in glob.glob('data/Imposter/defaults/*.png') :
+        createModifiedSprites(path, paletteColor)
+
+def delTempImage() :
+    for path in glob.glob('data/Imposter/temp/*.png') :
+        os.remove(path)
 
 def mouseOnButton(button) :
     mouseX, mouseY = pygame.mouse.get_pos()

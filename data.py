@@ -12,7 +12,18 @@ LIMIT_BOTTOM = DISPLAY_HEIGHT - 10
 # Color Values
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+PINK = (255, 0, 255)
 SBTG_RED = (255, 25, 25, 64)
+
+# Palette Swap Values
+PALETTE_DEFAULT = (255, 0, 0, 255), (0, 0, 255, 255)
+PALETTE_RED = (255, 0, 0, 255), (160, 0, 0, 255)
+PALETTE_GREEN = (0, 255, 0, 255), (0, 160, 0, 255)
+PALETTE_BLUE = (0, 0, 255, 255), (0, 0, 160, 255)
+PALETTE_PINK = (255, 0, 255, 255), (160, 0, 160, 255)
 
 # Action Values
 IDLE = 5

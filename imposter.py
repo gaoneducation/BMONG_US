@@ -3,15 +3,11 @@ import pygame as pg
 from character import Character
 from utils import *
 from data import *
-from _test import Customize
 
 class Imposter(Character) :
     def __init__(self, startX, startY) :
         Character.__init__(self, startX, startY)
 
-        customize = Customize()
-        # red, green, blue, pink 가능
-        customize.colorSwap("red")
         self.sabotage = False
         self.killCount = 0
 
