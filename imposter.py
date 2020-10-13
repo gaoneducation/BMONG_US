@@ -3,11 +3,13 @@ import pygame as pg
 from character import Character
 from utils import *
 from data import *
+import _test
 
 class Imposter(Character) :
     def __init__(self, startX, startY) :
         Character.__init__(self, startX, startY)
 
+        _test.colorSwap("red")
         self.sabotage = False
         self.killCount = 0
 
@@ -30,8 +32,8 @@ class Imposter(Character) :
         self.count = 1
 
         imageFileName = 'idle.png'
-        self.image, self.rect = load_image(imageFileName, 'Imposter\\idle')
-
+        self.image, self.rect = load_image(imageFileName, 'Imposter\\idle\\custom')
+        self.image = self.image[3]
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)
 

@@ -33,4 +33,4 @@ def colorSwap(custom_color):
                 px[i, j] = custom_color[1]
             if pixel == red[0] or (70 < r < 255) and not (g > 220 and r > 80):
                 px[i, j] = custom_color[0]
-    src.save('data/Imposter/custom/idle.png')
+    src.save('data/Imposter/idle/custom/idle.png')
