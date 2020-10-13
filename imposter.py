@@ -9,7 +9,7 @@ class Imposter(Character) :
         Character.__init__(self, startX, startY)
 
         self.sabotage = False
-        self.kill = False
+        self.killCount = 0
 
     def update(self) :
         if self.currAnimation == IDLE :
@@ -19,6 +19,12 @@ class Imposter(Character) :
             self.walk()
             self.walkAnimation()
             self.setRectCenterPos()
+
+    def addkillCounter(self) :
+        self.killCount += 1
+
+    def setSabotageState(self, state) :
+        self.sabotage = state
 
     def idleAnimation(self) :
         self.count = 1
@@ -48,3 +54,27 @@ class Imposter(Character) :
 
         if self.count == WALK_ANIMATION_FRAME + 1:
             self.count = 1
+
+    def killMotion(self, display) :
+        self.count = 1
+
+        killBG, killBG_rect = load_image('killBg.png', 'Others')
+        killBG_rect.center = KILL_BG_POS_X, KILL_BG_POS_Y
+
+        while self.count <= KILL_ANIMATION_FRAME :
+            pg.time.Clock().tick(30)
+
+            imageFileName = 'kill{}.jpg'.format(self.count)
+            self.image, self.rect = load_image(imageFileName, 'Imposter\\kill')
+
+            screen = pg.display.get_surface()
+            self.area = screen.get_rect()
+
+            self.count += 1
+            self.rect.topleft = KILL_ANIMATION_X, KILL_ANIMATION_Y
+
+            display.blit(killBG, (KILL_BG_POS_X, KILL_BG_POS_Y))
+            display.blit(self.image, (KILL_ANIMATION_X, KILL_ANIMATION_Y))
+            pg.display.update()
+            
+        

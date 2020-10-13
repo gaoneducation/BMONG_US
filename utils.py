@@ -45,6 +45,9 @@ def imageScalePercent(image, scalePercent) :
 
     return pygame.transform.scale(image, (width, height))
 
+def imageScaleAbsolute(image, width, height) :
+    return pygame.transform.scale(image, (width, height))
+
 def mouseOnButton(button) :
     mouseX, mouseY = pygame.mouse.get_pos()
 
