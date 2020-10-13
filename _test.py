@@ -45,7 +45,3 @@ class Customize:
                 if pixel == self.red[0] or (70 < r < 255) and not (g > 220 and r > 80):
                     px[i, j] = self.custom_color[0]
         src.save('data/Imposter/temp/' + Path(path).name)
-
-
-customize = Customize()
-customize.colorSwap('red')
