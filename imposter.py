@@ -1,7 +1,7 @@
 import pygame as pg
 
 from character import Character
-from utils import load_image, imageFlipLR
+from utils import load_image, imageFlipLR, getMask
 from data import *
 
 class Imposter(Character) :
@@ -19,6 +19,8 @@ class Imposter(Character) :
             self.walk()
             self.walkAnimation()
             self.setRectCenterPos()
+
+        self.mask = getMask(self.image)
 
     def addkillCounter(self) :
         self.killCount += 1

@@ -103,22 +103,18 @@ def main() :
             reviveBt.setAvailable(False)
 
         # 타원(테이블) 충돌
-        a = 265
-        b = 233
-        dump = 10
-        ay = math.pow(a, 2)*math.pow(player.currPosY-table.centery+dump, 2)
-        bx = math.pow(b, 2)*math.pow(player.currPosX-table.centerx, 2)
-        distance = math.sqrt(ay+bx)
-        if distance <= a*b:
-            if player.currPosX > table.centerx-265 & player.currPosX < table.centerx+265:
-                if player.currPosY < table.centery:
+        collisionCheck = pygame.sprite.collide_mask(player, table)
+        if collisionCheck is not None :
+            if player.currPosX > table.centerX-265 & player.currPosX < table.centerX+265:
+                if player.currPosY < table.centerY:
                     player.setDownPressed(False)
-                elif player.currPosY > table.centery:
+                elif player.currPosY > table.centerY:
                     player.setUpPressed(False)
-            if player.currPosY > table.centery-233 & player.currPosY < table.centery+233:
-                if player.currPosX > table.centerx:
+
+            if player.currPosY > table.centerY-233 & player.currPosY < table.centerY+233:
+                if player.currPosX > table.centerX:
                     player.setLeftPressed(False)
-                elif player.currPosX < table.centerx:
+                elif player.currPosX < table.centerX:
                     player.setRightPressed(False)
 
         spriteGroup.remove(player)
@@ -135,7 +131,7 @@ def main() :
             spriteGroup.move_to_back(dummy)
             spriteGroup.move_to_back(player)
         
-        if player.currPosY >= table.centery :
+        if player.currPosY >= table.centerY :
             spriteGroup.move_to_back(table)
         else :
             spriteGroup.move_to_front(table)

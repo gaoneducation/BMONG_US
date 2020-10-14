@@ -1,6 +1,6 @@
 import pygame
 
-from utils import load_image
+from utils import load_image, getMask
 
 class Table(pygame.sprite.Sprite) :
     def __init__(self, startX, startY):
@@ -15,4 +15,4 @@ class Table(pygame.sprite.Sprite) :
         self.area = screen.get_rect()
         self.rect.center = self.centerX, self.centerY
 
-        self.mask = pygame.mask.from_surface(self.image)
+        self.mask = getMask(self.image)

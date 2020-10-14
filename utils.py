@@ -89,3 +89,6 @@ def mouseOnButton(button) :
         return True
     else :
         return False
+
+def getMask(image) :
+    return pygame.mask.from_surface(image)
