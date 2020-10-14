@@ -14,3 +14,5 @@ class Table(pygame.sprite.Sprite) :
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.rect.center = self.centerX, self.centerY
+
+        self.mask = pygame.mask.from_surface(self.image)

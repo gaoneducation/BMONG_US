@@ -14,6 +14,7 @@ class Character(pygame.sprite.Sprite) :
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.rect.topleft = self.currPosX, self.currPosY
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.currAnimation = IDLE
         self.faceSide = FACE_RIGHT
