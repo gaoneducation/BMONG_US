@@ -10,7 +10,7 @@ from crew import Crew
 from background import *
 from button import KillButton, SbtgButton, ReviveButton
 from table import Table
-from utils import delTempImage, makeImagePaletteSwap, mouseOnButton
+from utils import *
 
 pygame.init()
 pygame.display.set_caption(TITLE)
@@ -144,11 +144,7 @@ def main() :
         spriteGroup.draw(screen)
         
         if player.sabotage == True :
-            sbtgTime = int(sbtgCounter / FPS)
-            if (sbtgTime >= 0 and sbtgTime < 1) or \
-                (sbtgTime >= 2 and sbtgTime < 3) or \
-                (sbtgTime >= 4 and sbtgTime < 5) :
-
+            if isRedScreenTime(sbtgCounter) :
                 screen.blit(sbtgBG, (SBTG_BG_POS_X, SBTG_BG_POS_Y))
             else :
                 pass

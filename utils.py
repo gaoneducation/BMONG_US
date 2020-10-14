@@ -92,3 +92,14 @@ def mouseOnButton(button) :
 
 def getMask(image) :
     return pygame.mask.from_surface(image)
+
+def isRedScreenTime(counter) :
+    sbtgTime = int(counter / FPS)
+
+    if (sbtgTime >= 0 and sbtgTime < 1) or \
+        (sbtgTime >= 2 and sbtgTime < 3) or \
+        (sbtgTime >= 4 and sbtgTime < 5) :
+
+        return True
+    else :
+        return False
