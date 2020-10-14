@@ -1,6 +1,6 @@
 import os, sys
 
-import pygame as pg
+import pygame
 import math
 
 from data import *
@@ -9,14 +9,14 @@ from imposter import Imposter
 from crew import Crew
 from background import *
 from button import KillButton, SbtgButton, ReviveButton
-from table import *
-from utils import delTempImage
+from table import Table
+from utils import delTempImage, makeImagePaletteSwap, mouseOnButton
 
-pg.init()
-pg.display.set_caption(TITLE)
-screen = pg.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+pygame.init()
+pygame.display.set_caption(TITLE)
+screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
-clock = pg.time.Clock()
+clock = pygame.time.Clock()
 
 def main() :
     bg = Background(0,0)
@@ -36,40 +36,40 @@ def main() :
     sbtgBG, sbtgBG_rect = load_image('SBTG_BG.png', 'Others')
     sbtgBG_rect.topleft = SBTG_BG_POS_X, SBTG_BG_POS_Y
 
-    spriteGroup = pg.sprite.LayeredUpdates((bg, table, dummy, player, killBt, sbtgBt, reviveBt))
+    spriteGroup = pygame.sprite.LayeredUpdates((bg, table, dummy, player, killBt, sbtgBt, reviveBt))
 
     loop = True
 
     while loop :
         clock.tick(FPS)
 
-        for event in pg.event.get() :
-            if event.type == pg.QUIT :
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT :
                 loop = False
-            elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 loop = False
 
-        keys = pg.key.get_pressed()
-        leftclick = pg.mouse.get_pressed()[MOUSE_LEFT]
+        keys = pygame.key.get_pressed()
+        leftclick = pygame.mouse.get_pressed()[MOUSE_LEFT]
 
-        if keys[pg.K_a] :
+        if keys[pygame.K_a] :
             player.setLeftPressed(True)
-        elif keys[pg.K_a] == 0 :
+        elif keys[pygame.K_a] == 0 :
             player.setLeftPressed(False)
 
-        if keys[pg.K_d] :
+        if keys[pygame.K_d] :
             player.setRightPressed(True)
-        elif keys[pg.K_d] == 0 :
+        elif keys[pygame.K_d] == 0 :
             player.setRightPressed(False)
 
-        if keys[pg.K_w] :
+        if keys[pygame.K_w] :
             player.setUpPressed(True) 
-        elif keys[pg.K_w] == 0 :
+        elif keys[pygame.K_w] == 0 :
             player.setUpPressed(False)
         
-        if keys[pg.K_s] :
+        if keys[pygame.K_s] :
             player.setDownPressed(True)
-        elif keys[pg.K_s] == 0 :
+        elif keys[pygame.K_s] == 0 :
             player.setDownPressed(False)
 
         playerAction = player.checkAction()
@@ -102,19 +102,6 @@ def main() :
         else :
             reviveBt.setAvailable(False)
 
-        '''
-        #test 원 충돌
-        if(pygame.sprite.collide_rect(b1,player)):
-            if player.currPosY == b1.centery-100:
-                player.setDownPressed(False)
-            elif player.currPosY == b1.centery+100:
-                player.setUpPressed(False)
-            elif player.currPosX == b1.centerx-100:
-                player.setLeftPressed(False)
-            elif player.currPosX == b1.centerx+100:
-                player.setRightPressed(False)
-        '''
-
         # 타원(테이블) 충돌
         a = 265
         b = 233
@@ -125,10 +112,8 @@ def main() :
         if distance <= a*b:
             if player.currPosX > table.centerx-265 & player.currPosX < table.centerx+265:
                 if player.currPosY < table.centery:
-                    #table보다 player layer 더 낮게
                     player.setDownPressed(False)
                 elif player.currPosY > table.centery:
-                    #table보다 player layer 더 높게 -> Line 117
                     player.setUpPressed(False)
             if player.currPosY > table.centery-233 & player.currPosY < table.centery+233:
                 if player.currPosX > table.centerx:
@@ -179,9 +164,9 @@ def main() :
                 player.setSabotageState(False)
                 sbtgBt.setAvailable(True)
 
-        pg.display.update()
+        pygame.display.update()
 
-    pg.quit()
+    pygame.quit()
 
 if __name__ == "__main__":
     main()

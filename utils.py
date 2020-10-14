@@ -67,12 +67,13 @@ def createModifiedSprites(path, palatteColor):
             
             if pixel == data.PALETTE_BLUE[0] or (70 < b < 255) and not (g > 220 and b > 80):
                 px[i, j] = palatteColor[1]
+                
             if pixel == data.PALETTE_RED[0] or (70 < r < 255) and not (g > 220 and r > 80):
                 px[i, j] = palatteColor[0]
 
     src.save('data/Imposter/temp/' + Path(path).name)
 
-def makeImagePaletteSwap(paletteColor=data.PALETTE_RED) :
+def makeImagePaletteSwap(paletteColor=data.PALETTE_DEFAULT) :
     for path in glob.glob('data/Imposter/defaults/*.png') :
         createModifiedSprites(path, paletteColor)
 

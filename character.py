@@ -1,6 +1,6 @@
-import pygame as pg
+import pygame
 
-from utils import *
+from utils import load_image, imageFlipLR
 from data import *
 
 class Character(pygame.sprite.Sprite) :
@@ -8,17 +8,10 @@ class Character(pygame.sprite.Sprite) :
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image('1.png', 'test')
 
-        self.basePosX = 250
-        self.basePosY = 120
-
-        if startX is None or startY is None :
-            startX = self.basePosX
-            startY = self.basePosY
-            
         self.currPosX = startX
         self.currPosY = startY
 
-        screen = pg.display.get_surface()
+        screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.rect.topleft = self.currPosX, self.currPosY
 
@@ -45,7 +38,7 @@ class Character(pygame.sprite.Sprite) :
         self.count = 1
 
         imageFileName = 'idle.png'
-        self.image, self.rect = load_image(imageFileName, 'Imposter\\idle')
+        self.image, self.rect = load_image(imageFileName, 'Imposter\\defaults')
 
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)
@@ -57,12 +50,12 @@ class Character(pygame.sprite.Sprite) :
             self.count = 1
 
         imageFileName = 'walk{}.png'.format(self.count)
-        self.image, self.rect = load_image(imageFileName, 'Imposter\\walk')
+        self.image, self.rect = load_image(imageFileName, 'Imposter\\defaults')
 
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)
 
-        screen = pg.display.get_surface()
+        screen = pygame.display.get_surface()
         self.area = screen.get_rect()
 
         self.count += 1

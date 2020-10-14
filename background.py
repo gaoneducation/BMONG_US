@@ -1,7 +1,6 @@
-import pygame as pg
+import pygame
 
-from data import *
-from utils import *
+from utils import load_image
 
 class Background(pygame.sprite.Sprite) :
     def __init__(self, startX, startY) :
@@ -11,21 +10,3 @@ class Background(pygame.sprite.Sprite) :
 
         self.currPosX, self.currPosY = startX, startY
         self.rect.topleft = self.currPosX, self.currPosY
-
-        self.currAnimation = BG_IDLE
-
-    def update(self) :
-        if self.currAnimation == BG_IDLE :
-            return None
-
-class Collision_Line(pygame.sprite.Sprite) :
-    def __init__(self, startX, startY, width, height) :
-        pygame.sprite.Sprite.__init(self)
-
-        self.image = pg.Surface([width, height])
-
-        self.image.fill(WHITE)
-
-        self.rect = self.image.get_rect()
-        self.rect.y = startY
-        self.rect.x = startX

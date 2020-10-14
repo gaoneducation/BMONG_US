@@ -1,7 +1,7 @@
 import pygame as pg
 
 from character import Character
-from utils import *
+from utils import load_image, imageFlipLR
 from data import *
 
 class Imposter(Character) :
@@ -30,7 +30,6 @@ class Imposter(Character) :
         self.count = 1
 
         imageFileName = 'idle.png'
-        # self.image, self.rect = load_image(imageFileName, 'Imposter\\idle\\custom')
         self.image, self.rect = load_image(imageFileName, 'Imposter\\temp')
 
         if self.faceSide == FACE_LEFT :
@@ -43,7 +42,7 @@ class Imposter(Character) :
             self.count = 1
 
         imageFileName = 'walk{}.png'.format(self.count)
-        # self.image, self.rect = load_image(imageFileName, 'Imposter\\walk')
+    
         self.image, self.rect = load_image(imageFileName, 'Imposter\\temp')
 
         if self.faceSide == FACE_LEFT :

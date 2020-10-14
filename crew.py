@@ -1,7 +1,7 @@
-import pygame as pg
+import pygame
 
 from data import *
-from utils import *
+from utils import imageFlipLR, load_image
 from character import Character
 
 class Crew(Character) :
@@ -45,7 +45,7 @@ class Crew(Character) :
         if self.faceSide == FACE_LEFT :
             self.image = imageFlipLR(self.image)
 
-        screen = pg.display.get_surface()
+        screen = pygame.display.get_surface()
         self.area = screen.get_rect()
 
         self.count += 1
@@ -60,7 +60,7 @@ class Crew(Character) :
         imageFileName = 'Dead{}.png'.format(self.count)
         self.image, self.rect = load_image(imageFileName, 'Crew\\dead')
 
-        screen = pg.display.get_surface()
+        screen = pygame.display.get_surface()
         self.area = screen.get_rect()
 
         self.count += 1
@@ -72,7 +72,7 @@ class Crew(Character) :
         imageFileName = 'spawn{}.png'.format(self.count)
         self.image, self.rect = load_image(imageFileName, 'Crew\\spawn')
 
-        screen = pg.display.get_surface()
+        screen = pygame.display.get_surface()
         self.area = screen.get_rect()
 
         self.count += 1
