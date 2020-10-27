@@ -94,7 +94,7 @@ def getMask(image) :
     return pygame.mask.from_surface(image)
 
 def isRedScreenTime(counter) :
-    sbtgTime = int(counter / FPS)
+    sbtgTime = int(counter / data.FPS)
 
     if (sbtgTime >= 0 and sbtgTime < 1) or \
         (sbtgTime >= 2 and sbtgTime < 3) or \
