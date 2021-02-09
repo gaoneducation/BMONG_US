@@ -1,10 +1,12 @@
 # BMONG_US
+### 1차시 - https://youtu.be/z_So23AZSHQ
+### 2차시 - https://youtu.be/5-kVa-cqdk0
+
+---
 Bmong Us
 - 개발 기간 : 2020.10.06 ~ 2020.10.27
 - 2020 하반기 대학생 동아리 온라인 교육기부 사업 참여
 
-### 1차시 - https://youtu.be/z_So23AZSHQ
-### 2차시 - https://youtu.be/5-kVa-cqdk0
 
 ## 주요 스택
  - Python
